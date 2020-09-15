@@ -280,7 +280,8 @@
 				type:'',
 				isbtn:false,//判断下一题是否灰色
 				muclick:false ,//放重复点击
-				aboutnum:2 //当前页面参数
+				aboutnum:2, //当前页面参数
+				isdisable:false
 			}
 		},
 		computed: {
@@ -352,11 +353,14 @@
 					}
 				}
 			},
-			tonext() {
+			tonext(getparams) {
 				if(this.muclick){
 					return false
 				}else{
 					this.muclick=true
+				}
+				if(this.isdisable){
+					return false
 				}
 				if(this.type==3){
 					if (this.currentIndex === '') {
@@ -468,6 +472,7 @@
 						},
 						params:params
 					}).then(res =>{
+						that.isdisable=true
 						this.showget=true
 						that.rightanswers=res.data.resultData.answer
 						let rianswer=res.data.resultData.answer;
@@ -490,8 +495,15 @@
 							that.$refs.targets[that.currentIndex].style.backgroundColor = '#f8b3b4';
 							that.$refs.targets[that.rightAnswer].style.backgroundColor = '#c1e0f8';
 						}
-						var _that=that
-						let size=this.xuhaonum+1
+						var _that=that;
+						if(getparams == 'ishomes'){
+							if(_that.type!=3){
+								setTimeout(function() {
+									_that.$emit('gethome')
+								}, 1000)
+							}
+						}
+						let size=this.xuhaonum+1;
 						if(size<that.cursize){
 							setTimeout(function() {
 								_that.$emit('getFun', that.aboutnum);
@@ -499,16 +511,22 @@
 								// _that.$store.commit('updatacurnum', _that.xuhaonum+1)
 							}, 1000)
 						}
+						
 					}).catch(() =>{
 					
 					})
 				}
 			},
-			mutonext() {
+			mutonext(getparams) {
+				//重复点击
 				if(this.muclick){
 					return false
 				}else{
 					this.muclick=true
+				}
+				//提交后无法重复提交
+				if(this.isdisable){
+					return false
 				}
 				if(this.type==3){
 					if (this.currentIndex === '') {
@@ -622,6 +640,7 @@
 						},
 						params:params
 					}).then(res =>{
+						that.isdisable=true
 						that.rightanswers=res.data.resultData.answer
 						var answ = res.data.resultData.answer;
 						if(answ==_str){
@@ -664,7 +683,14 @@
 								that.rightAnswer = ''
 							}
 						}
-						var _that = that
+						var _that = that;
+						if(getparams == 'ishomes'){
+							if(_that.type!=3){
+								setTimeout(function() {
+									_that.$emit('gethome')
+								}, 1000)
+							}
+						}
 						let size=this.xuhaonum+1
 						if(size<that.cursize){
 							setTimeout(function() {
@@ -680,23 +706,16 @@
 			},
 			toindex(type) {
 				if(type==0 || type==2){
-					this.tonext();
-					var _that=this;
-					if(this.type!=3){
-						setTimeout(function() {
-							_that.$emit('gethome')
-						}, 1000)
-					}
-					
+					this.tonext('ishomes');
 				}
 				if(type==1){
-					this.mutonext();
-					var _that=this;
-					if(this.type!=3){
-						setTimeout(function() {
-							_that.$emit('gethome')
-						}, 1000)
-					}
+					this.mutonext('ishomes');
+					// var _that=this;
+					// if(this.type!=3){
+					// 	setTimeout(function() {
+					// 		_that.$emit('gethome')
+					// 	}, 1000)
+					// }
 					
 				}
 			},

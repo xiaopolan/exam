@@ -225,12 +225,12 @@
 	  </div>
 	  <div class="maind3" @click="jxExamch(3)">
 		  <div class="maint1">限时竞答</div>
-		  <div class="maint2">开放时间：9月27日 10:00-10:30</div>
-		  <div class="gettime" v-show="allcan.stageTwo==0 && (twice>3 || twice<1)"></div>
+		  <div class="maint2">开放时间：9月27日 9:55-10:30</div>
+		  <div class="gettime" v-show="getshowsecond"></div>
 	  </div>
 	  <div class="mainds3" @click="topaihang()">
 		  <div class="maint1">线上竞赛-排行榜</div>
-		  <div class="maint2" style="margin-top: 6px;width: 215px;">系统留言板在此开放快进来聊聊“我和我的造价人生”吧！</div>
+		  <div class="maint2" style="margin-top: 6px;width: 215px;">通知，对于算分规则的提问，系统已在此回复</div>
 	  </div>
 	  <div class="rulediv" @click="openTip()">
 		  <div class="ruleimg"></div>
@@ -265,12 +265,8 @@ export default {
 		  allcan:{
 			  
 		  },
-		  twice:0
-		  // firstName:'',
-		  // firstScore:'',
-		  // userScore:'',
-		  // stageOne:'',
-		  // stageTwo:''
+		  twice:0,
+		  getshowsecond:true
 	  }
   },
   created() {
@@ -313,12 +309,17 @@ export default {
 		  sessionStorage.setItem('type',num)
 	  },
 	  jxExamch(num){
-		  if(this.allcan.stageTwo==0){
-			  if(this.twice>3){
+		  if(this.getshowsecond){
+			  if(this.twice>2 || this.twice<1){
 				  return false
 			  }
 		  }else{
-			  if(this.twice>3){
+			  if(this.twice>2){
+				  if(localStorage.getItem('jdtype') == 1){
+					  this.finall(1)
+				  }else if(localStorage.getItem('jdtype') ==2){
+					  this.finall(2)
+				  }
 			  	return false
 			  }
 		  }
@@ -329,6 +330,23 @@ export default {
 			}
 		  })
 		  sessionStorage.setItem('type',num);
+	  },
+	  finall(num){
+	  	var that=this;
+	  	this.axios.get(this.baseurls+'/prelim/comPrelim', {
+	  		headers:{
+	  		    'Authorization':localStorage.getItem('Authorization')
+	  		},
+	  		params:{
+	  			ttype:num,
+	  			eid:localStorage.getItem('eid')
+	  		}
+	  	}).then(res =>{
+			alert('由于退出次数超过限制，系统以为您自动提交！')
+			localStorage.removeItem('twice')
+	  	}).catch(() =>{
+	  	
+	  	})
 	  },
 	  closeText(){
 		  this.isTip=false
@@ -345,7 +363,13 @@ export default {
 		  	},
 		  }).then(res =>{
 			that.allcan=res.data.resultData
+			if(that.allcan.timeOutSecond>-900 && that.allcan.timeOutSecond<300){
+				that.getshowsecond=false
+			}else{
+				that.getshowsecond=true
+			}
 			sessionStorage.setItem('bimUrl',res.data.resultData.bimUrl)
+			sessionStorage.setItem('getshowsecond',that.allcan.timeOutSecond)
 		  }).catch(() =>{
 		  
 		  })

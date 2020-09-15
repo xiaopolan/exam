@@ -247,7 +247,7 @@
 					<div v-for="(item,index) in paperlist">
 						<div  :key='index'  v-bind:class="['paperlipa',{paperlinone:currentIndex === index}]" v-if="item.tstate==0" @click="checkedpa(index,item.eid)">{{index+1}}</div>
 						<div  :key='index' class="paperliba"  v-if="item.tstate==1">{{index+1}}</div>
-						<div  :key='index' class="paperli"  v-if="item.tstate==2" >{{index+1}}</div>
+						<div  :key='index' class="paperli"  v-if="item.tstate==2" @click="timealert(index)">{{index+1}}</div>
 					</div>
 					
 					<!-- <div class="paperlinone">2</div> -->
@@ -291,7 +291,8 @@
 			<div class="guizetext">文件发放时间：<span class="redte">考试开始前5分钟</span></div>
 			<div class="guizetext">注：选手一定<span class="redte">要提前在电脑端</span>打开此地址获取文件，如果 开始答题在返回获取答案，将会影响答题成绩或不能答题。</div>
 		</div>
-		<div class="bombutton" @click="tokaoshi">开始答题</div>
+		<div class="combutton" v-show='istimeshow' >{{getshowsecond}}s后开始答题</div>
+		<div class="bombutton" v-show='!istimeshow'  @click="tokaoshi">开始答题</div>
 		<div class="bomtext">行行云算 cc.hhzj.net 提醒您每周要做10套试题哦~</div>
 	</div>
 </template>
@@ -307,11 +308,28 @@
 				eid:'',
 				isbtn:true,
 				oneortwo:'',
-				bimUrl:''
+				bimUrl:'',
+				getshowsecond:null,
+				istimeshow:true
 			}
 		},
 		created() {
 			this.type=sessionStorage.getItem('type');
+			if(this.type==3){
+				this.getshowsecond=sessionStorage.getItem('getshowsecond');
+				var _that=this;
+				var timer = window.setInterval(() => {
+					if (_that.getshowsecond > 0) {
+						--_that.getshowsecond;
+					} else {
+						_that.istimeshow=false;
+						_that.getjxpaper();
+						clearInterval(timer);
+					}
+				}, 1000)
+			}
+			
+			
 			if(this.type==2){
 				this.isbtn=false
 				this.getallpaper()
@@ -323,6 +341,14 @@
 			
 		},
 		methods: {
+			timealert(index){
+				if(index>9 && index<15){
+					alert('9月21日开放！')
+				}
+				if(index>14 && index<20){
+					alert('9月23日开放！')
+				}
+			},
 			backhome(){
 				this.$router.push({
 				  name: 'Home',
@@ -357,6 +383,7 @@
 					var twice =parseInt(localStorage.getItem('twice'));
 					twice++;
 					localStorage.setItem('twice',twice);
+					localStorage.setItem('jdtype',1);//1为冲顶题 2为实操题
 					if(this.oneortwo == 'own'){
 						this.$router.push({
 						  name: 'header',

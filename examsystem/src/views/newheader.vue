@@ -189,6 +189,7 @@ export default {
 	computed:{
 	},
 	created() {
+		localStorage.setItem('jdtype',2);
 		if(localStorage.getItem('tknumber')){
 			this.tknumber=parseInt(localStorage.getItem('tknumber'))
 		}else{
@@ -351,6 +352,7 @@ export default {
 					eid:localStorage.getItem('eid')
 				}
 			}).then(res =>{
+				localStorage.removeItem('twice');
 				var totalScore=res.data.resultData.totalScore
 				var falseNum=res.data.resultData.falseNum
 				var trueNum=res.data.resultData.trueNum
