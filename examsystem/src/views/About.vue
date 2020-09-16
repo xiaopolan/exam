@@ -392,7 +392,8 @@
 							 	tpid:this.questionList.tpid,
 							 	aAnswer:aAnswer,
 							 	eid:this.eid,
-								ttype:1
+								ttype:1,
+								index:this.xuhaonum
 							 }
 						let that=this;
 						this.axios.get(url, {
@@ -462,7 +463,8 @@
 						 	tpid:this.questionList.tpid,
 						 	aAnswer:aAnswer,
 						 	eid:this.eid,
-							ttype:0
+							ttype:0,
+							index:this.xuhaonum
 						 }
 					}
 					let that=this;
@@ -503,7 +505,7 @@
 								}, 1000)
 							}
 						}
-						let size=this.xuhaonum+1;
+						let size=this.xuhaonum+1
 						if(size<that.cursize){
 							setTimeout(function() {
 								_that.$emit('getFun', that.aboutnum);
@@ -511,7 +513,6 @@
 								// _that.$store.commit('updatacurnum', _that.xuhaonum+1)
 							}, 1000)
 						}
-						
 					}).catch(() =>{
 					
 					})
@@ -563,7 +564,8 @@
 							tpid:this.questionList.tpid,
 							aAnswer:_str,
 							eid:this.eid,
-							ttype:1
+							ttype:1,
+							index:this.xuhaonum
 						}
 						let url=this.baseurls+'/prelim/postPrelimAnswer'
 						let that=this;
@@ -630,7 +632,8 @@
 						 	tpid:this.questionList.tpid,
 						 	aAnswer:_str,
 							eid:this.eid,
-							ttype:0
+							ttype:0,
+							index:this.xuhaonum
 						 }
 					}
 					let that=this;

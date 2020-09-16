@@ -392,7 +392,8 @@
 							 	tpid:this.questionList.tpid,
 							 	aAnswer:aAnswer,
 							 	eid:this.eid,
-								ttype:1
+								ttype:1,
+								index:this.xuhaonum
 							 }
 						let that=this;
 						this.axios.get(url, {
@@ -462,7 +463,8 @@
 						 	tpid:this.questionList.tpid,
 						 	aAnswer:aAnswer,
 						 	eid:this.eid,
-							ttype:0
+							ttype:0,
+							index:this.xuhaonum
 						 }
 					}
 					let that=this;
@@ -562,7 +564,8 @@
 							tpid:this.questionList.tpid,
 							aAnswer:_str,
 							eid:this.eid,
-							ttype:1
+							ttype:1,
+							index:this.xuhaonum
 						}
 						let url=this.baseurls+'/prelim/postPrelimAnswer'
 						let that=this;
@@ -629,7 +632,8 @@
 						 	tpid:this.questionList.tpid,
 						 	aAnswer:_str,
 							eid:this.eid,
-							ttype:0
+							ttype:0,
+							index:this.xuhaonum
 						 }
 					}
 					let that=this;

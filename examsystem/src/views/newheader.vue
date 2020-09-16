@@ -297,7 +297,8 @@ export default {
 				 	tpid:this.tkquestion.tpid,
 				 	aAnswer:this.answertk,
 				 	eid:this.eid,
-					ttype:3
+					ttype:3,
+					index:this.tknumber
 				 }
 			let that=this;
 			this.axios.get(url, {
