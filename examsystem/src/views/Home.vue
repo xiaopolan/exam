@@ -208,7 +208,7 @@
 				  <div class="fhtexts" @click="backurls">返回个人中心</div>
 			  </div>
 			  <div class="toptext2">
-				  <div>目标分数3500分-<span class="nowsocer">{{allcan.username}}{{allcan.userScore}}分</span></div>
+				  <div>目标分数3500分-<span class="nowsocer">{{allcan.username}}</span><span class="nowsocer" style="margin-left: 10px;">{{allcan.userScore}}</span>分</div>
 				  <div class="lefttext" v-if="allcan.firstScore<=0" style="text-align: center;">快来打榜</div>
 				  <div class="lefttext" v-else>第1名 {{allcan.firstName}} {{allcan.firstScore}}分</div>
 			  </div>
@@ -225,7 +225,7 @@
 	  </div>
 	  <div class="maind3" @click="jxExamch(3)">
 		  <div class="maint1">限时竞答</div>
-		  <div class="maint2">开放时间：9月27日 9:55-10:30</div>
+		  <div class="maint2">开放时间：9月27日 9:55-10:40</div>
 		  <div class="gettime" v-show="getshowsecond"></div>
 	  </div>
 	  <div class="mainds3" @click="topaihang()">

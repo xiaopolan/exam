@@ -169,6 +169,57 @@
 	.redte{
 		color: #EB0505;
 	}
+	.mainnotice{
+		height: 150px;
+		width: 300px;
+		background: #FFFFFF;
+		border-radius: 4px;
+		position: absolute;
+		top: 45%;
+		left: 12%;
+		z-index: 999;
+	}
+	.masterdiv{
+		width: 100%;
+		height: 100%;
+		background: #333333;
+		opacity: 0.5;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.topsno{
+		width: 100%;
+		height: 100px;
+		font-size: 12px;
+		font-weight: 400;
+		color: #5E5E5E;
+		line-height: 18px;
+		padding: 22px 28px;
+		box-sizing: border-box;
+		border-bottom: 1px solid #EEEEEE;
+	}
+	.nobtn{
+		display: flex;
+		flex-direction: row;
+	}
+	.nobtn>div{
+		flex: 1;
+		text-align: center;
+	}
+	.cancleno{
+		font-size: 14px;
+		font-weight: 400;
+		color: #AAAAAA;
+		line-height: 50px;
+		border-right: 1px solid #EEEEEE;
+	}
+	.beginno{
+		font-size: 14px;
+		font-weight: 400;
+		color: #586B95;
+		line-height: 50px;
+	}
 </style>
 <template>
 	<div class="maindiv" v-if='type==1' style="height: 100vh;">
@@ -257,6 +308,14 @@
 		</div>
 		<div :class="{'bombutton':isbtn,'combutton':!isbtn}" @click="tokaoshi">开始答题</div>
 		<div class="bomtext">行行云算 cc.hhzj.net 提醒您每周要做10套试题哦~</div>
+		<div class="masterdiv" v-show="istimeout"></div>
+		<div class="mainnotice" v-show="istimeout">
+			<div class="topsno">系统检测到您在答题过程中多次退出，存在刷题行为，本次答题将是此答卷的<span style="color: #FF0D0D;">最后一次答题机会</span>，是否开启答题？</div>
+			<div class="nobtn">
+				<div class="cancleno" @click="istimeout=false">取消</div>
+				<div class="beginno" @click="newbegin()">开始答题</div>
+			</div>
+		</div>
 	</div>
 	<div class="maindiv" v-else>
 		<div class="tops">
@@ -310,7 +369,8 @@
 				oneortwo:'',
 				bimUrl:'',
 				getshowsecond:null,
-				istimeshow:true
+				istimeshow:true,
+				istimeout:false
 			}
 		},
 		created() {
@@ -354,6 +414,15 @@
 				  name: 'Home',
 				})
 			},
+			newbegin(){
+				this.$router.push({
+				  name: 'header',
+				  params:{
+					  type:2,
+					  eid:this.eid
+				  }
+				})
+			},
 			tokaoshi(){
 				if(this.type==1){
 					if(parseInt(sessionStorage.getItem("allnums"))>=3){
@@ -370,13 +439,34 @@
 					if(this.eid==''){
 						return false
 					}else{
-						this.$router.push({
-						  name: 'header',
-						  params:{
-							  type:2,
-							  eid:this.eid
-						  }
+						var that=this
+						this.axios.get(this.baseurls+'/prelim/getStageNum', {
+							headers:{
+							    'Authorization':localStorage.getItem('Authorization')
+							},
+							params:{
+								eid:that.eid
+							}
+						}).then(res =>{
+							let num=res.data.data
+							if(num<2){
+								this.$router.push({
+								  name: 'header',
+								  params:{
+									  type:2,
+									  eid:that.eid
+								  }
+								})
+							}else if(num==2){
+								that.istimeout=true
+							}else{
+								alert('您的答题次数超过限制，无法进入答题！')
+								return false
+							}
+						}).catch(() =>{
+						
 						})
+						
 					}
 					
 				}else if(this.type==3){

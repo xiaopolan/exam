@@ -285,16 +285,24 @@ export default {
 						eid:sessionStorage.getItem('eid')
 					}
 				}).then(res =>{
-					var totalScore=res.data.resultData.totalScore
-					that.$router.push({
-						name: 'result',
-						params:{
-							rightnum:that.rightnum,
-							wronnum:that.wronnum,
-							type:that.type,
-							totalScore:totalScore
-						}
-					})
+					if(res.data.code == '404' || res.data.code == '406'){
+						alert('答题异常，即将返回首页!');
+						that.$router.push({
+						  name: 'Home',
+						})
+					}else{
+						var totalScore=res.data.resultData.totalScore
+						that.$router.push({
+							name: 'result',
+							params:{
+								rightnum:res.data.resultData.trueNum,
+								wronnum:res.data.resultData.falseNum,
+								type:that.type,
+								totalScore:totalScore
+							}
+						})
+					}
+					
 				}).catch(() =>{
 				
 				})
@@ -310,34 +318,41 @@ export default {
 						eid:localStorage.getItem('eid')
 					}
 				}).then(res =>{
-					if(res.data.resultData.isjump){
-						localStorage.removeItem('maxtime');
-						localStorage.removeItem('wronnum');
-						localStorage.removeItem('rightnum');
-						localStorage.removeItem('xuhaonum');
-						localStorage.removeItem('eid');
+					if(res.data.code == '404' || res.data.code == '406'){
+						alert('答题异常，即将返回首页!');
 						that.$router.push({
-							name: 'newheader',
+						  name: 'Home',
 						})
 					}else{
-						//todo
-						that.ismaster=true;
-						that.maxtime=parseInt(res.data.resultData.second)+1;
-						that.second=res.data.resultData.second;
-						var _that=that
-						var timerouts = window.setInterval(() => {
-							_that.second--;
-							if(_that.second==0){
-								localStorage.removeItem('maxtime');
-								localStorage.removeItem('wronnum');
-								localStorage.removeItem('rightnum');
-								localStorage.removeItem('xuhaonum');
-								localStorage.removeItem('eid');
-								_that.$router.push({
-									name: 'newheader',
-								})
-							}
-						}, 1000)
+						if(res.data.resultData.isjump){
+							localStorage.removeItem('maxtime');
+							localStorage.removeItem('wronnum');
+							localStorage.removeItem('rightnum');
+							localStorage.removeItem('xuhaonum');
+							localStorage.removeItem('eid');
+							that.$router.push({
+								name: 'newheader',
+							})
+						}else{
+							//todo
+							that.ismaster=true;
+							that.maxtime=parseInt(res.data.resultData.second)+1;
+							that.second=res.data.resultData.second;
+							var _that=that
+							var timerouts = window.setInterval(() => {
+								_that.second--;
+								if(_that.second==0){
+									localStorage.removeItem('maxtime');
+									localStorage.removeItem('wronnum');
+									localStorage.removeItem('rightnum');
+									localStorage.removeItem('xuhaonum');
+									localStorage.removeItem('eid');
+									_that.$router.push({
+										name: 'newheader',
+									})
+								}
+							}, 1000)
+						}
 					}
 					
 				}).catch(() =>{

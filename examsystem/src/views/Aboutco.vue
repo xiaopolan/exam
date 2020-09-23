@@ -402,29 +402,37 @@
 							},
 							params:params
 						}).then(res =>{
-							let rianswer=res.data.resultData.answer;
-							if (rianswer == 'A') {
-								that.rightAnswer = 0
-							} else if (rianswer == 'B') {
-								that.rightAnswer = 1
-							} else if (rianswer == 'C') {
-								that.rightAnswer = 2
-							} else if (rianswer == 'D') {
-								that.rightAnswer = 3
-							} else {
-								that.rightAnswer = ''
-							}
-							if (that.currentIndex == that.rightAnswer) {
-								that.$emit('getright')
-							} else {
-								that.$emit('getwron')
-							}
-							let numxh=parseInt(localStorage.getItem('xuhaonum'))+1
-							if(res.data.resultData.timeout || numxh==100){
-								that.$emit('gethome')
+							if(res.data.code=='406'){
+								alert('答题异常，即将返回首页！');
+								that.$router.push({
+								  name: 'Home',
+								})
 							}else{
-								that.$emit('getFun', that.aboutnum);
-								localStorage.setItem('xuhaonum',that.xuhaonum+1)
+								let rianswer=res.data.resultData.answer;
+								if (rianswer == 'A') {
+									that.rightAnswer = 0
+								} else if (rianswer == 'B') {
+									that.rightAnswer = 1
+								} else if (rianswer == 'C') {
+									that.rightAnswer = 2
+								} else if (rianswer == 'D') {
+									that.rightAnswer = 3
+								} else {
+									that.rightAnswer = ''
+								}
+								if (that.currentIndex == that.rightAnswer) {
+									that.$emit('getright')
+								} else {
+									that.$emit('getwron')
+								}
+								let numxh=parseInt(localStorage.getItem('xuhaonum'))+1
+								if(res.data.resultData.timeout || numxh==100){
+									that.$emit('gethome')
+								}else{
+									that.$emit('getFun', that.aboutnum);
+									localStorage.setItem('xuhaonum',that.xuhaonum+1)
+								}
+								
 							}
 							
 						}).catch(() =>{
@@ -474,6 +482,12 @@
 						},
 						params:params
 					}).then(res =>{
+						if(res.data.code=='406'){
+							alert('答题异常，即将返回首页！');
+							that.$router.push({
+							  name: 'Home',
+							})
+						}else{
 						that.isdisable=true
 						this.showget=true
 						that.rightanswers=res.data.resultData.answer
@@ -512,6 +526,7 @@
 								sessionStorage.setItem('xuhaonum',_that.xuhaonum+1)
 								// _that.$store.commit('updatacurnum', _that.xuhaonum+1)
 							}, 1000)
+						}
 						}
 					}).catch(() =>{
 					
@@ -575,6 +590,12 @@
 							},
 							params:params
 						}).then(res =>{
+							if(res.data.code=='406'){
+								alert('答题异常，即将返回首页！');
+								that.$router.push({
+								  name: 'Home',
+								})
+							}else{
 							var answ = res.data.resultData.answer;
 							if(answ==_str){
 								that.$emit('getright')
@@ -587,6 +608,7 @@
 							}else{
 								that.$emit('getFun', that.aboutnum);
 								localStorage.setItem('xuhaonum',that.xuhaonum+1)
+							}
 							}
 						}).catch(() =>{
 						
@@ -643,6 +665,12 @@
 						},
 						params:params
 					}).then(res =>{
+						if(res.data.code=='406'){
+							alert('答题异常，即将返回首页！');
+							that.$router.push({
+							  name: 'Home',
+							})
+						}else{
 						that.isdisable=true
 						that.rightanswers=res.data.resultData.answer
 						var answ = res.data.resultData.answer;
@@ -702,6 +730,7 @@
 								// _that.$store.commit('updatacurnum', _that.xuhaonum+1)
 							}, 1000)
 						}
+						}
 					}).catch(() =>{
 					
 					})
@@ -754,28 +783,36 @@
 					},
 					params:params
 				}).then(res =>{
-					that.cursize=res.data.resultData.totalSize;
-					that.$emit('getsize', that.cursize);
-					that.$emit('getnow', that.xuhaonum+1);
-					if (that.xuhaonum == that.cursize-1) {
-						that.istijiao = false
+					if(res.data.code == '404' || res.data.code == '406'){
+						alert('答题异常，即将返回首页!');
+						that.$router.push({
+						  name: 'Home',
+						})
+					}else{
+						that.cursize=res.data.resultData.totalSize;
+						that.$emit('getsize', that.cursize);
+						that.$emit('getnow', that.xuhaonum+1);
+						if (that.xuhaonum == that.cursize-1) {
+							that.istijiao = false
+						}
+						that.questionList=res.data.data;
+						if(that.questionList.aoption !=''){
+							that.answerlist.push('A.'+that.questionList.aoption)
+						}
+						if(that.questionList.boption !=''){
+							that.answerlist.push('B.'+that.questionList.boption)
+						}
+						if(that.questionList.coption !=''){
+							that.answerlist.push('C.'+that.questionList.coption)
+						}
+						if(that.questionList.doption !=''){
+							that.answerlist.push('D.'+that.questionList.doption)
+						}
+						if(that.questionList.eoption !=''){
+							that.answerlist.push('E.'+that.questionList.eoption)
+						}
 					}
-					that.questionList=res.data.data;
-					if(that.questionList.aoption !=''){
-						that.answerlist.push('A.'+that.questionList.aoption)
-					}
-					if(that.questionList.boption !=''){
-						that.answerlist.push('B.'+that.questionList.boption)
-					}
-					if(that.questionList.coption !=''){
-						that.answerlist.push('C.'+that.questionList.coption)
-					}
-					if(that.questionList.doption !=''){
-						that.answerlist.push('D.'+that.questionList.doption)
-					}
-					if(that.questionList.eoption !=''){
-						that.answerlist.push('E.'+that.questionList.eoption)
-					}
+					
 				}).catch(() =>{
 
 				})

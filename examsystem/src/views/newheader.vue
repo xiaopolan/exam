@@ -353,7 +353,9 @@ export default {
 					eid:localStorage.getItem('eid')
 				}
 			}).then(res =>{
-				localStorage.removeItem('twice');
+				// localStorage.removeItem('twice');
+				// localStorage.removeItem('tknumber');
+				// localStorage.removeItem('eid');
 				var totalScore=res.data.resultData.totalScore
 				var falseNum=res.data.resultData.falseNum
 				var trueNum=res.data.resultData.trueNum
