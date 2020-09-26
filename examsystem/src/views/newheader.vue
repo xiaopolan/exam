@@ -87,7 +87,7 @@
 		box-sizing: border-box;
 	}
 	.typeclass {
-		width: 40px;
+		width: 90px;
 		height: 20px;
 		display: inline-block;
 		background: #ffd200;
@@ -113,9 +113,6 @@
 		height: 44px;
 		line-height: 44px;
 		font-size: 18px;
-		position: fixed;
-		bottom: 63px;
-		left: 10%;
 	}
 	.getinput{
 		width: 80%;
@@ -150,7 +147,8 @@
         </div>
 		<div class="timu">
 			<div class="quediv">
-				<div><span class="typeclass">填空</span>{{tkquestion.tpfont}}</div>
+				<div v-if="tknumber<2"><span class="typeclass">手工算量</span>{{tkquestion.tpfont}}</div>
+				<div v-else><span class="typeclass">建模算量</span>{{tkquestion.tpfont}}</div>
 			</div>
 			<div class="bgimg"></div>
 		</div>
@@ -333,11 +331,18 @@ export default {
 				},
 				params:params
 			}).then(res =>{
-				if (that.tknumber == that.cursize-1) {
-					that.istijiao = false
+				if(res.data.code == '404' || res.data.code == '406' || res.data.data=='' || res.data.data.length==0 || res.data.data==null){
+					alert('答题异常，即将返回首页!');
+					that.$router.push({
+					  name: 'Home',
+					})
+				}else{
+					if (that.tknumber == that.cursize-1) {
+						that.istijiao = false
+					}
+					that.cursize=res.data.resultData.totalSize;
+					that.tkquestion=res.data.data
 				}
-				that.cursize=res.data.resultData.totalSize;
-				that.tkquestion=res.data.data
 			}).catch(() =>{
 			
 			})

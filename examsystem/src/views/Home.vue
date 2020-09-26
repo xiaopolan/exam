@@ -342,7 +342,7 @@ export default {
 	  			eid:localStorage.getItem('eid')
 	  		}
 	  	}).then(res =>{
-			alert('由于退出次数超过限制，系统以为您自动提交！')
+			alert('由于退出次数超过限制，系统已为您自动提交！')
 			localStorage.removeItem('twice')
 	  	}).catch(() =>{
 	  	

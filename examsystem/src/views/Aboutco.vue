@@ -783,7 +783,7 @@
 					},
 					params:params
 				}).then(res =>{
-					if(res.data.code == '404' || res.data.code == '406'){
+					if(res.data.code == '404' || res.data.code == '406' || res.data.data=='' || res.data.data.length==0 || res.data.data==null){
 						alert('答题异常，即将返回首页!');
 						that.$router.push({
 						  name: 'Home',

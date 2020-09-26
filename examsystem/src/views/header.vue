@@ -152,8 +152,12 @@ export default {
 			// }else{
 			// 	this.maxtime=5*60
 			// }
-			if(localStorage.getItem('maxtime')){
-				this.maxtime=localStorage.getItem('maxtime')
+			if(localStorage.getItem('ontstatime')){
+				let times=localStorage.getItem('ontstatime')
+				let date1=new Date();  //开始时间
+				let date2=new Date(times);    //结束时间
+				let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+				this.maxtime=parseInt(date3/1000);
 			}else{
 				this.maxtime=5*60
 			}

@@ -325,7 +325,7 @@
 			</div>
 			<div class="topli">
 				<div class="liimg1"></div>
-				<div class="litext">考试类型：限时竞答（冲顶竞速+实操算量）</div>
+				<div class="litext">比赛单元：自由竞答（冲顶竞速+实操算量）</div>
 			</div>
 			<div class="topli">
 				<div class="liimg2"></div>
@@ -333,7 +333,7 @@
 			</div>
 			<div class="topli">
 				<div class="liimg3"></div>
-				<div class="litext">考试时间：冲顶竞速<span class="redtext">5</span>分钟+实操算量<span class="redtext">25</span>分钟</div>
+				<div class="litext">考试时间：冲顶竞速<span class="redtext">5</span>分钟+实操算量<span class="redtext">35</span>分钟</div>
 			</div>
 			<div class="topli">
 				<div class="liimg4"></div>
@@ -342,16 +342,16 @@
 			<div class="fenge"></div>
 			<div class="tixing">题型介绍</div>
 			<div class="guizetext">一、冲顶竞速题型为单选题和判断题（每题只有一个正确 答案，每题10分，共100题，共1000分。）</div>
-			<div class="guizetext">二、实操算量为填空题（共10题，每题50分，满分500分。 建模算量按准确率评分，答题结果与标准答案偏离率≤2%， 该项得满分</div>
-			<div class="guizetext">注：冲顶竞速题每答对1题加10分，答错1题在本套试题已 得分数基础上扣10分，扣成0分为止，弃答当前题目可直接 进入下一题，不</div>
+			<div class="guizetext">二、实操算量为填空题（2道手工算量+8道建模算量，每题 50分）。 实操算量按准确率评分，答题结果与标准答案偏离率≤2%， 该项得满分</div>
+			<div class="guizetext">注：冲顶竞速题每答对1题加10分，答错1题在本套试题已 得分数基础上扣10分，扣成0分为止，弃答当前题目可直接 进入下一题，不扣分</div>
 			<div class="fenge"></div>
 			<div class="tixing">实操文件</div>
 			<div class="guizetext">文件获取地址：<span class="redte">{{bimUrl}}</span></div>
 			<div class="guizetext">文件发放时间：<span class="redte">考试开始前5分钟</span></div>
-			<div class="guizetext">注：选手一定<span class="redte">要提前在电脑端</span>打开此地址获取文件，如果 开始答题在返回获取答案，将会影响答题成绩或不能答题。</div>
+			<div class="guizetext">注：选手<span class="redte">要提前在电脑端</span>打开此地址获取文件</div>
 		</div>
 		<div class="combutton" v-show='istimeshow' >{{getshowsecond}}s后开始答题</div>
-		<div class="bombutton" v-show='!istimeshow'  @click="tokaoshi">开始答题</div>
+		<div class="bombutton" v-show='!istimeshow'  @click="tokaoshi">{{testone}}</div>
 		<div class="bomtext">行行云算 cc.hhzj.net 提醒您每周要做10套试题哦~</div>
 	</div>
 </template>
@@ -370,7 +370,8 @@
 				bimUrl:'',
 				getshowsecond:null,
 				istimeshow:true,
-				istimeout:false
+				istimeout:false,
+				testone:'开始答题'
 			}
 		},
 		created() {
@@ -381,6 +382,7 @@
 				var timer = window.setInterval(() => {
 					if (_that.getshowsecond > 0) {
 						--_that.getshowsecond;
+						sessionStorage.setItem('getshowsecond',_that.getshowsecond);
 					} else {
 						_that.istimeshow=false;
 						_that.getjxpaper();
@@ -471,22 +473,31 @@
 					
 				}else if(this.type==3){
 					var twice =parseInt(localStorage.getItem('twice'));
-					twice++;
-					localStorage.setItem('twice',twice);
-					localStorage.setItem('jdtype',1);//1为冲顶题 2为实操题
-					if(this.oneortwo == 'own'){
-						this.$router.push({
-						  name: 'header',
-						  params:{
-							  type:this.type,
-							  eid:this.eid
-						  }
-						})
-					}else if(this.oneortwo == 'two'){
-						this.$router.push({
-							name: 'newheader',
-						})
-					}
+						twice++;
+						localStorage.setItem('twice',twice);
+						localStorage.setItem('jdtype',1);//1为冲顶题 2为实操题
+						if(this.oneortwo == 'own'){
+							this.$router.push({
+							  name: 'header',
+							  params:{
+								  type:this.type,
+								  eid:this.eid
+							  }
+							})
+						}else if(this.oneortwo == 'two'){
+							var twostatime=localStorage.getItem('twostatime')
+							let date1=new Date();  //开始时间
+							let date2=new Date(twostatime);    //结束时间
+							let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+							var datat=parseInt(date3/1000)
+							if(datat<0){
+								this.$router.push({
+									name: 'newheader',
+								})
+							}else{
+								alert('试题暂未开启，请稍后重试')
+							}
+						}
 					
 				}
 				
@@ -518,6 +529,8 @@
 				}).then(res =>{
 					if(res.data.code==200){
 						let reslist=res.data.data;
+						localStorage.setItem('ontstatime',reslist[0].eovertime);
+						localStorage.setItem('twostatime',reslist[1].ebegintime);
 						for(let i=0;i<reslist.length;i++){
 							let date1=new Date();  //开始时间
 							let date2=new Date(reslist[i].eovertime);    //结束时间
@@ -533,7 +546,8 @@
 								break
 							}
 							if(reslist[i].ttype==2 && reslist[i].tstate==1){
-								alert('不在考试时间内，无法答题！')
+								alert('答题已完成！');
+								that.testone="答题已完成";
 							}
 							// else if(reslist[i].ttype==2 && reslist[i].tstate==0){
 							// 	that.oneortwo='two'
