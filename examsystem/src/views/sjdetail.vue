@@ -352,7 +352,7 @@
 		</div>
 		<div class="combutton" v-show='istimeshow' >{{getshowsecond}}s后开始答题</div>
 		<div class="bombutton" v-show='!istimeshow'  @click="tokaoshi">{{testone}}</div>
-		<div class="bomtext">行行云算 cc.hhzj.net 提醒您每周要做10套试题哦~</div>
+		<div class="bomtext">行行云算 cc.hhzj.net</div>
 	</div>
 </template>
 

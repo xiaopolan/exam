@@ -71,7 +71,7 @@
 		font-size: 13px;
 		font-weight: 400;
 		color: #FFFFFF;
-		margin-top: 13px;
+		margin-top: 10px;
 		margin-left: 100px;
 	}
 	.maind2{
@@ -226,6 +226,7 @@
 	  <div class="maind3" @click="jxExamch(3)">
 		  <div class="maint1">限时竞答</div>
 		  <div class="maint2">开放时间：9月27日 9:55-10:40</div>
+		  <div class="maint2" style="margin-top: 1px;">开题15分钟后不可进入</div>
 		  <div class="gettime" v-show="getshowsecond"></div>
 	  </div>
 	  <div class="mainds3" @click="topaihang()">

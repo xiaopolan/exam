@@ -1,7 +1,7 @@
 // vue.config.js
 var path = require('path');
 var webpack = require('webpack');
-var targeturl="http://192.168.3.71:8080"
+var targeturl="http://192.168.3.42:8080"
 var npmScriptsName = process.env.npm_lifecycle_event;
 
 module.exports = {

@@ -63,7 +63,7 @@
 	  <div class="texttwo" v-show="type==2">得分：{{totalScore}}分，加油！</div>
 	  <div class="textthr" v-show="type==3">本次答题</div>
 	  <div class="textthr" v-show="type==3">竞速题：答对<span style="color: #1B97FF;">{{cdlist.trueNum}}道</span>，答错<span style="color: #FF0D0D;">{{cdlist.falseNum}}道</span>，得分<span style="color: #FF0D0D;">{{cdlist.totalScore}}分</span></div>
-	  <div class="textthr" v-show="type==3">实操题：答对<span style="color: #1B97FF;">{{sclist.trueNum}}道</span>，答错<span style="color: #FF0D0D;">{{sclist.falseNum}}道</span>，得分<span style="color: #FF0D0D;">{{sclist.totalScore}}分</span></div>
+	  <div class="textthr" v-show="type==3">实操题：得分<span style="color: #FF0D0D;">{{sclist.totalScore}}分</span></div>
 	  <div class="texttwo" v-show="type==3">总得分：{{totalScore}}分，加油！</div>
 	  <div class="toindex" @click="gotohome()">返回首页</div>
 	  <img class="imgtwo" src="../assets/result2.png" />
@@ -86,14 +86,14 @@ export default {
 		 type:'',
 		 numnow:'',
 		 cdlist:{
-			 trueNum:'',
-			 falseNum:'',
-			 totalScore:''
+			 trueNum:0,
+			 falseNum:0,
+			 totalScore:0
 		 },
 		 sclist:{
-			 trueNum:'',
-			 falseNum:'',
-			 totalScore:''
+			 trueNum:0,
+			 falseNum:0,
+			 totalScore:0
 		 }
 	  }
   },
@@ -105,7 +105,32 @@ export default {
 	 this.totalScore=this.$route.params.totalScore;
 	 this.numnow=this.$route.params.numnow;
 	 if(this.$route.params.cdlist){
-		 this.cdlist=this.$route.params.cdlist;
+		 if(this.cdlist.length==0 ||this.cdlist==null ||this.cdlist==''){
+			if(this.cdlist.trueNum){
+				 if(this.cdlist.trueNum=='' || this.cdlist.trueNum==null){
+					 this.cdlist.trueNum=0
+				 }
+			}else{
+				this.cdlist.trueNum=0
+			}
+			if(this.cdlist.falseNum){
+				if(this.cdlist.falseNum=='' || this.cdlist.falseNum==null){
+					 this.cdlist.falseNum=0
+				 }
+			}else{
+				this.cdlist.falseNum=0
+			}
+			if(this.cdlist.totalScore){
+				if(this.cdlist.totalScore=='' || this.cdlist.totalScore==null){
+					 this.cdlist.totalScore=0
+				 }
+			}else{
+				this.cdlist.totalScore=0
+			} 
+		 }else{
+			 this.cdlist=this.$route.params.cdlist; 
+		 }
+		 
 	 }
 	 if(this.$route.params.sclist){
 		 this.sclist=this.$route.params.sclist;
