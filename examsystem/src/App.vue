@@ -7,7 +7,8 @@
 	export default {
 	  name: 'App',
 	  created() {
-	  	let Authorization=this.$route.query.Authorization
+	  	// let Authorization=this.$route.query.Authorization
+		let Authorization="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODEzNzU2NjQxMSIsImV4cCI6MTYwMTc5NDgyMH0.6X13fSbQLJNLKdrTebLB5HJq6iNCC9MPjoJGUsbL3g8"
 	  	if(Authorization){
 	  		localStorage.setItem('Authorization',Authorization);
 			this.$router.push({

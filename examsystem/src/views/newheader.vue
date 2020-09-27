@@ -153,7 +153,7 @@
 			<div class="bgimg"></div>
 		</div>
 		<div class="answer">
-			<textarea class="getinput" type="text" v-model="answertk" />
+			<input class="getinput" type="text"  placeholder="" v-model="answertk">
 		</div>
 		<button class="nextone" @click="tonext()" v-if="istijiao">下一题</button>
 		<button class="nextone" @click="toindex()" v-if='!istijiao'>提交</button>
@@ -266,11 +266,21 @@ export default {
 				if(res.data.code==200){
 					let reslist=res.data.data;
 					for(let i=0;i<reslist.length;i++){
-						let date1=new Date();  //开始时间
-						let date2=new Date(reslist[i].eovertime);    //结束时间
-						let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
-						localStorage.setItem('maxtime',parseInt(date3/1000));
-						that.maxtime=parseInt(date3/1000)
+						var ua = navigator.userAgent.toLowerCase();
+						if (/iphone|ipad|ipod/.test(ua)) {
+							let date1=new Date();  //开始时间
+							let date2=new Date(reslist[i].eovertime.replace(/-/g,'/'));    //结束时间
+							let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+							localStorage.setItem('maxtime',parseInt(date3/1000));
+							that.maxtime=parseInt(date3/1000)
+						} else{
+							let date1=new Date();  //开始时间
+							let date2=new Date(reslist[i].eovertime);    //结束时间
+							let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+							localStorage.setItem('maxtime',parseInt(date3/1000));
+							that.maxtime=parseInt(date3/1000)
+						}
+						
 						if(reslist[i].ttype==2 && reslist[i].tstate==0){
 							that.eid=reslist[i].eid;
 							localStorage.setItem('eid',reslist[i].eid);
@@ -305,13 +315,29 @@ export default {
 				},
 				params:params
 			}).then(res =>{
-				that.tknumber=that.tknumber+1,
-				localStorage.setItem('tknumber',that.tknumber)
-				that.answertk='';
-				if(msg!='noti'){
-					that.gettkqu()
+				if(res.data.code == '404' || res.data.code == '406'){
+					if(that.tknumber<9){
+						that.tknumber=that.tknumber+1,
+						localStorage.setItem('tknumber',that.tknumber);
+						alert('答题异常，即将返回首页!');
+						that.$router.push({
+						  name: 'Home',
+						})
+					}else{
+						alert('答题异常，即将返回首页!');
+						that.$router.push({
+						  name: 'Home',
+						})
+					}
 				}else{
-					that.finall()
+					that.tknumber=that.tknumber+1,
+					localStorage.setItem('tknumber',that.tknumber)
+					that.answertk='';
+					if(msg!='noti'){
+						that.gettkqu()
+					}else{
+						that.finall()
+					}
 				}
 			}).catch(() =>{
 			
@@ -336,12 +362,18 @@ export default {
 					that.$router.push({
 					  name: 'Home',
 					})
+				}else if(res.data.code == '500'){
+					that.toindex();
 				}else{
+					that.cursize=res.data.resultData.totalSize;
 					if (that.tknumber == that.cursize-1) {
 						that.istijiao = false
+					}else if(that.tknumber>that.cursize-1){
+						that.toindex();
+					}else{
+						that.tkquestion=res.data.data
 					}
-					that.cursize=res.data.resultData.totalSize;
-					that.tkquestion=res.data.data
+					
 				}
 			}).catch(() =>{
 			

@@ -259,7 +259,7 @@
 							<div class="lit1">行行造价</div>
 							<div class="lit2">置顶消息</div>
 						</div>
-						<div class="liutx">在自由竞答单元，选手一定要每周完成10套答卷哦，超时系统会自动交卷。答题过程中每套答卷选手有2次容错机会，即答错2题以内（含）不扣分，2题以上答错扣分，扣分以套内分数扣完为止。</div>
+						<div class="liutx">【圆梦人生大赛】各位选手，实操竞答单元将于今天15：00对因系统原因影响答题选手开放，请准时进入，已经完成答题的，勿需再次答题!</div>
 					</div>
 					<div class="liuyanli" v-for="(item,index) in liuyanlist">
 						<div class="liuyantop">

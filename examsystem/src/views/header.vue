@@ -153,11 +153,20 @@ export default {
 			// 	this.maxtime=5*60
 			// }
 			if(localStorage.getItem('ontstatime')){
-				let times=localStorage.getItem('ontstatime')
-				let date1=new Date();  //开始时间
-				let date2=new Date(times);    //结束时间
-				let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
-				this.maxtime=parseInt(date3/1000);
+				var ua = navigator.userAgent.toLowerCase();
+				if (/iphone|ipad|ipod/.test(ua)) {
+					let times=localStorage.getItem('ontstatime')
+					let date1=new Date();  //开始时间
+					let date2=new Date(times.replace(/-/g,'/'));    //结束时间
+					let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+					this.maxtime=parseInt(date3/1000);
+				} else {
+					let times=localStorage.getItem('ontstatime')
+					let date1=new Date();  //开始时间
+					let date2=new Date(times);    //结束时间
+					let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+					this.maxtime=parseInt(date3/1000);
+				}
 			}else{
 				this.maxtime=5*60
 			}

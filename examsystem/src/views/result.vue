@@ -63,7 +63,7 @@
 	  <div class="texttwo" v-show="type==2">得分：{{totalScore}}分，加油！</div>
 	  <div class="textthr" v-show="type==3">本次答题</div>
 	  <div class="textthr" v-show="type==3">竞速题：答对<span style="color: #1B97FF;">{{cdlist.trueNum}}道</span>，答错<span style="color: #FF0D0D;">{{cdlist.falseNum}}道</span>，得分<span style="color: #FF0D0D;">{{cdlist.totalScore}}分</span></div>
-	  <div class="textthr" v-show="type==3">实操题：得分<span style="color: #FF0D0D;">{{sclist.totalScore}}分</span></div>
+	  <div class="textthr" v-show="type==3">实操题：答对<span style="color: #1B97FF;">{{sclist.trueNum}}道</span>，答错<span style="color: #FF0D0D;">{{sclist.falseNum}}道</span>，得分<span style="color: #FF0D0D;">{{sclist.totalScore}}分</span></div>
 	  <div class="texttwo" v-show="type==3">总得分：{{totalScore}}分，加油！</div>
 	  <div class="toindex" @click="gotohome()">返回首页</div>
 	  <img class="imgtwo" src="../assets/result2.png" />
@@ -105,6 +105,7 @@ export default {
 	 this.totalScore=this.$route.params.totalScore;
 	 this.numnow=this.$route.params.numnow;
 	 if(this.$route.params.cdlist){
+		 this.cdlist=this.$route.params.cdlist; 
 		 if(this.cdlist.length==0 ||this.cdlist==null ||this.cdlist==''){
 			if(this.cdlist.trueNum){
 				 if(this.cdlist.trueNum=='' || this.cdlist.trueNum==null){
@@ -127,8 +128,6 @@ export default {
 			}else{
 				this.cdlist.totalScore=0
 			} 
-		 }else{
-			 this.cdlist=this.$route.params.cdlist; 
 		 }
 		 
 	 }

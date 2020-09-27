@@ -280,6 +280,21 @@ export default {
 	  	localStorage.setItem('twice',0)
 	  }
 	  this.getAllsc();
+	  if(localStorage.getItem('islocal')){
+		  localStorage.setItem('islocal',true)
+	  }else{
+		  localStorage.removeItem('twice');
+		  localStorage.removeItem('eid');
+		  localStorage.removeItem('tknumber');
+		  localStorage.removeItem('maxtime');
+		  localStorage.removeItem('twostatime');
+		  localStorage.removeItem('ontstatime');
+		  localStorage.removeItem('wronnum');
+		  localStorage.removeItem('rightnum');
+		  localStorage.removeItem('jdtype');
+		  localStorage.removeItem('xuhaonum');
+		  localStorage.setItem('islocal',true);
+	  }
   },
   methods:{
 	  backurls(){
@@ -311,26 +326,28 @@ export default {
 	  },
 	  jxExamch(num){
 		  if(this.getshowsecond){
-			  if(this.twice>2 || this.twice<1){
-				  return false
-			  }
+			  // if(this.twice>2 || this.twice<1){
+				 //  return false
+			  // }
+			  return false
 		  }else{
-			  if(this.twice>2){
-				  if(localStorage.getItem('jdtype') == 1){
-					  this.finall(1)
-				  }else if(localStorage.getItem('jdtype') ==2){
-					  this.finall(2)
-				  }
-			  	return false
-			  }
+			  // if(this.twice>2){
+				 //  if(localStorage.getItem('jdtype') == 1){
+					//   this.finall(1)
+				 //  }else if(localStorage.getItem('jdtype') ==2){
+					//   this.finall(2)
+				 //  }
+			  // 	return false
+			  // }
+			  this.$router.push({
+			    name: 'sjdetail',
+			  			params:{
+			  				type:num,
+			  			}
+			  })
+			  sessionStorage.setItem('type',num);
 		  }
-		  this.$router.push({
-		    name: 'sjdetail',
-			params:{
-				type:num,
-			}
-		  })
-		  sessionStorage.setItem('type',num);
+		  
 	  },
 	  finall(num){
 	  	var that=this;

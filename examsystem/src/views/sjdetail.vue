@@ -486,10 +486,21 @@
 							})
 						}else if(this.oneortwo == 'two'){
 							var twostatime=localStorage.getItem('twostatime')
-							let date1=new Date();  //开始时间
-							let date2=new Date(twostatime);    //结束时间
-							let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
-							var datat=parseInt(date3/1000)
+							var ua = navigator.userAgent.toLowerCase();
+							if (/iphone|ipad|ipod/.test(ua)) {
+								let date1=new Date();  //开始时间
+								let date2=new Date(twostatime.replace(/-/g,'/'));    //结束时间
+								let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+								var datat=parseInt(date3/1000)
+								
+							} else{
+								let date1=new Date();  //开始时间
+								let date2=new Date(twostatime);    //结束时间
+								let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+								var datat=parseInt(date3/1000)
+								
+							}
+							
 							if(datat<0){
 								this.$router.push({
 									name: 'newheader',
@@ -531,11 +542,19 @@
 						let reslist=res.data.data;
 						localStorage.setItem('ontstatime',reslist[0].eovertime);
 						localStorage.setItem('twostatime',reslist[1].ebegintime);
+						var ua = navigator.userAgent.toLowerCase();
 						for(let i=0;i<reslist.length;i++){
-							let date1=new Date();  //开始时间
-							let date2=new Date(reslist[i].eovertime);    //结束时间
-							let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
-							localStorage.setItem('maxtime',parseInt(date3/1000));
+							if (/iphone|ipad|ipod/.test(ua)) {
+								let date1=new Date();  //开始时间
+								let date2=new Date(reslist[i].eovertime.replace(/-/g,'/'));    //结束时间
+								let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+								localStorage.setItem('maxtime',parseInt(date3/1000));
+							} else{
+								let date1=new Date();  //开始时间
+								let date2=new Date(reslist[i].eovertime);    //结束时间
+								let date3=date2.getTime()-date1.getTime()  //时间差的毫秒数
+								localStorage.setItem('maxtime',parseInt(date3/1000));
+							}
 							if(reslist[i].ttype==1 && reslist[i].tstate==0){
 								localStorage.setItem('eid',reslist[i].eid)
 								that.oneortwo='own';
