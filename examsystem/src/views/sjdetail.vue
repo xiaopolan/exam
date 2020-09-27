@@ -342,13 +342,13 @@
 			<div class="fenge"></div>
 			<div class="tixing">题型介绍</div>
 			<div class="guizetext">一、冲顶竞速题型为单选题和判断题（每题只有一个正确 答案，每题10分，共100题，共1000分。）</div>
-			<div class="guizetext">二、实操算量为填空题（2道手工算量+8道建模算量，每题 50分）。 实操算量按准确率评分，答题结果与标准答案偏离率≤2%， 该项得满分</div>
-			<div class="guizetext">注：冲顶竞速题每答对1题加10分，答错1题在本套试题已 得分数基础上扣10分，扣成0分为止，弃答当前题目可直接 进入下一题，不扣分</div>
+			<div class="guizetext">二、实操算量为填空题（2道手工算量+8道建模算量，每题 50分）。 实操算量按准确率评分，答题结果与标准答案偏离率≤2%， 该项得满分;偏离率＞2%，按偏离率计算得分[例：某项偏离率为3%，则该项得分=对应分值*（1-3%）]，超时未答题或偏离率大于10%则扣分。扣分以当前比赛单元内得分扣完为止。</div>
+			<div class="guizetext">注：冲顶竞速题每答对1题加10分，答错1题在本套试题已 得分数基础上扣10分，扣成0分为止，弃答当前题目可直接进入下一题，不加分也不减分。</div>
 			<div class="fenge"></div>
 			<div class="tixing">实操文件</div>
-			<div class="guizetext">文件获取地址：<span class="redte">{{bimUrl}}</span></div>
+			<div class="guizetext">文件下载地址：<span class="redte">{{bimUrl}}</span></div>
 			<div class="guizetext">文件发放时间：<span class="redte">考试开始前5分钟</span></div>
-			<div class="guizetext">注：选手<span class="redte">要提前在电脑端</span>打开此地址获取文件</div>
+			<div class="guizetext">注：选手<span class="redte">要提前在电脑端</span>打开此地址下载文件</div>
 		</div>
 		<div class="combutton" v-show='istimeshow' >{{getshowsecond}}s后开始答题</div>
 		<div class="bombutton" v-show='!istimeshow'  @click="tokaoshi">{{testone}}</div>
