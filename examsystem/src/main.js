@@ -18,16 +18,16 @@ Vue.prototype.baseurls="http://exam.hhzj.net"
 // 	 }
 // }, false);
 
-// axios.interceptors.response.use(function (response) {
-//     // token 已过期，重定向到登录页面
-//     if (response.data.code == 401){
-//         window.location.href = 'http://www.hhzj.net/hhxj/js_zj'
-//     }
-//     return response
-// }, function (error) {
-//     // Do something with response error
-//     return Promise.reject(error)
-// })
+axios.interceptors.response.use(function (response) {
+    // token 已过期，重定向到登录页面
+    if (response.data.code == 401){
+        window.location.href = 'http://www.hhzj.net/hhxj/js_zj'
+    }
+    return response
+}, function (error) {
+    // Do something with response error
+    return Promise.reject(error)
+})
 
 // if(localStorage.getItem('Authorization') == undefined || localStorage.getItem('Authorization') == null || localStorage.getItem('Authorization') == ''){
 // 	window.location.href = 'http://www.hhzj.net/hhxj/js_zj'
