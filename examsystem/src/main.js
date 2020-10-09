@@ -3,11 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import  qs from 'qs'
 
 Vue.config.productionTip = false
+Vue.prototype.$qs = qs
 Vue.prototype.axios = axios
-// Vue.prototype.baseurls="/api"
-Vue.prototype.baseurls="http://exam.hhzj.net"
+Vue.prototype.baseurls="/api"
+// Vue.prototype.baseurls="http://exam.hhzj.net"
 // window.addEventListener('message', function (e) {
 // 	 if(e.origin==''){
 // 		 if (e.source == window.parent){
@@ -18,16 +20,26 @@ Vue.prototype.baseurls="http://exam.hhzj.net"
 // 	 }
 // }, false);
 
-axios.interceptors.response.use(function (response) {
-    // token 已过期，重定向到登录页面
-    if (response.data.code == 401){
-        window.location.href = 'http://www.hhzj.net/hhxj/js_zj'
-    }
-    return response
-}, function (error) {
-    // Do something with response error
-    return Promise.reject(error)
+router.beforeEach((to, from, next) => {
+	if(to.name == 'chiose' || to.name == 'previewpage' || to.name == 'uploadpage' || to.name == 'uploads'){
+		next()
+	}else{
+		next({
+		    path: '/chiose'
+		})
+	}
 })
+
+// axios.interceptors.response.use(function (response) {
+//     // token 已过期，重定向到登录页面
+//     if (response.data.code == 401){
+//         window.location.href = 'http://www.hhzj.net/hhxj/js_zj'
+//     }
+//     return response
+// }, function (error) {
+//     // Do something with response error
+//     return Promise.reject(error)
+// })
 
 // if(localStorage.getItem('Authorization') == undefined || localStorage.getItem('Authorization') == null || localStorage.getItem('Authorization') == ''){
 // 	window.location.href = 'http://www.hhzj.net/hhxj/js_zj'

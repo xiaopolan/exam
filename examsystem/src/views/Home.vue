@@ -196,11 +196,16 @@
 		text-align: left;
 		margin-top: 19px;
 	}
+	.juesais{
+		width: 100%;
+		height: 100vh;
+		background: url(../assets/jsimg.png) no-repeat ;
+		background-size: 100% 100%;
+	}
 </style>
 <template>
-  <div class="home">
+  <!-- <div class="home">
 	  <div class="maintop">
-		  <!-- <img class="mainsrc" src="../assets/img1.png" /> -->
 		  <div class="topdiv">
 			  <div class="tips1">
 				  <div class="bgdiv"></div>
@@ -214,10 +219,6 @@
 			  </div>
 		  </div>
 	  </div>
-	  <!-- <div class="maind1" @click="toExam(1)">
-		  <div class="maint1">测试答题</div>
-		  <div class="maint2">练习可以拿奖品</div>
-	  </div> -->
 	  <div class="maind2" @click="toExamch(2)">
 		  <div class="maint1">自由竞答</div>
 		  <div class="maint2">开放时间：9月14日-9月25日</div>
@@ -250,7 +251,8 @@
 			<p style="text-indent:2em;">计分规则：实操竞速满分1500分。其中：冲顶竞速题每答对1题加10分，答错1题扣10分，弃答不加分也不减分，满分1000分；实操算量题，共10道，每题50分，满分500分。建模算量按准确率评分，答题结果与标准答案的偏离率≤2%，该项得满分；偏离率＞2%，按偏离率计算得分[例：某项偏离率为3%，则该项得分=对应分值*（1-3%）]，超时未答题或偏离率大于10%则扣分。扣分以当前比赛单元内得分扣完为止。</p>
           </div>
 	  </div>
-  </div>
+  </div> -->
+  <div class="juesais"></div>
 </template>
 
 <script>
@@ -280,8 +282,8 @@ export default {
 	  	localStorage.setItem('twice',0)
 	  }
 	  this.getAllsc();
-	  if(localStorage.getItem('islocal')){
-		  localStorage.setItem('islocal',true)
+	  if(localStorage.getItem('islocal1')){
+		  localStorage.setItem('islocal1',true)
 	  }else{
 		  localStorage.removeItem('twice');
 		  localStorage.removeItem('eid');
@@ -293,7 +295,8 @@ export default {
 		  localStorage.removeItem('rightnum');
 		  localStorage.removeItem('jdtype');
 		  localStorage.removeItem('xuhaonum');
-		  localStorage.setItem('islocal',true);
+		  localStorage.removeItem('islocal');
+		  localStorage.setItem('islocal1',true);
 	  }
   },
   methods:{

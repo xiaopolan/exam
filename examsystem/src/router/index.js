@@ -12,8 +12,18 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'chiose',
+    component: () => import(/* webpackChunkName: "about" */ '../views/chiose.vue')
+  },
+  {
+    path: '/chiose',
+    name: 'chiose',
+    component: () => import(/* webpackChunkName: "about" */ '../views/chiose.vue')
+  },
+  {
+    path: '/previewpage',
+    name: 'previewpage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/previewpage.vue')
   },
   {
     path: '/Home',
@@ -21,9 +31,9 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/uploadpage',
+    name: 'uploadpage',
+    component: () => import(/* webpackChunkName: "about" */ '../views/uploadpage.vue')
   },
   {
     path: '/aboutco',
@@ -54,7 +64,12 @@ Vue.use(VueRouter)
     path: '/newheader',
     name: 'newheader',
     component: () => import(/* webpackChunkName: "about" */ '../views/newheader.vue')
-  }
+  },
+  {
+    path: '/uploads',
+    name: 'uploads',
+    component: () => import(/* webpackChunkName: "about" */ '../views/uploads.vue')
+  },
 ]
 
 const router = new VueRouter({
