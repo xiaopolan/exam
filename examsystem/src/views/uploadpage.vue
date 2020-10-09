@@ -92,7 +92,11 @@ export default {
 	  }
   },
   created() {
-	 
+	 if(localStorage.getItem('Authorization')){
+		 this.$router.push({
+		 	name: 'uploads',
+		 })
+	 }
   },
   methods:{
 	  getyzm(){
@@ -105,9 +109,11 @@ export default {
 			this.issend=false;
 			var _that=this;
 			let timer = window.setInterval(() => {
-				if (_that.getnum >= 0) {
+				if (_that.getnum >= 1) {
 					--_that.getnum;
 				} else {
+					_that.issend=true;
+					_that.getnum=60
 					clearInterval(timer);
 				}
 			}, 1000)

@@ -8,8 +8,8 @@ import  qs from 'qs'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs
 Vue.prototype.axios = axios
-Vue.prototype.baseurls="/api"
-// Vue.prototype.baseurls="http://exam.hhzj.net"
+// Vue.prototype.baseurls="/api"
+Vue.prototype.baseurls="http://exam.hhzj.net"
 // window.addEventListener('message', function (e) {
 // 	 if(e.origin==''){
 // 		 if (e.source == window.parent){
