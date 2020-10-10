@@ -31,10 +31,9 @@
 	}
 	.thrimg{
 		width: 100%;
-		height: 92px;
+		height: 35px;
 		background: url(../assets/spimg1.png) no-repeat;
-		background-size: 100% 92px;
-		margin-bottom: 15px;
+		background-size: 100% 35px;
 	}
 </style>
 <template>

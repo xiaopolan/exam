@@ -153,12 +153,11 @@ export default {
 							// 	datalist:datalist,
 							// }
 						})
-					}else if(res.data.resultData.code==1){
+					}else if(res.data.resultData.code==0){
 						alert('对不起，您没有上传视频的权限')
-					}else{
-						alert(res.data.message)
+					}else if(res.data.resultData.code==2){
+						alert(res.data.data)
 					}
-					
 				}else{
 					alert(res.data.message)
 				}		

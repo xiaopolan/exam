@@ -11,10 +11,11 @@
   position: relative;
   top: -40px;
   padding-bottom: 95px;
+  z-index: 999;
 }
 .videoBox{
   width: 336px;
-  height: 320px;
+  height: 340px;
   border-radius: 11px;
   box-shadow: 2px 4px 1px 0px rgba(212, 74, 34, 0.75);
   background: #fff;
@@ -134,6 +135,12 @@ video{
   top: 0;
   left: 0;
 }
+.videotext{
+	font-size: 10px;
+	font-weight: 400;
+	color: #BABABA;
+	line-height: 32px;
+}
 </style>
 <template>
 	<div class="body">
@@ -158,6 +165,7 @@ video{
             <div v-else class="noVideo">
               <div class="noVideoIcon"></div>
             </div>
+		  <div v-if="item.video" class="videotext">第{{item.video.num}}次上传</div>
           </div>
         </div>
       </div>
@@ -176,11 +184,15 @@ export default {
   },
   data(){
 	  return{
-      videoList:[]
+		videoList:[],
+		scrollnum:0
 	  }
   },
   created() {
     this.getVideoList();
+  },
+  mounted() {
+  	 window.addEventListener("scroll",this.handleScroll);
   },
   methods:{
     getVideoList(){
@@ -205,13 +217,33 @@ export default {
     },
     getNum(index){
       var indexStr=index+'';
+	  if(index==9){
+	  	return index+1; 
+	  }
       if(indexStr.length==1){
          return '0'+(index+1);
-      }
-      else{
+      }else{
         return index+1;
       }
-    }
+	  
+    },
+	handleScroll() {
+	//获取滚动时的高度
+		let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+		
+		let nums=scrollTop-this.scrollnum
+		if (nums > 320 || nums<-320) {
+		  //大于200的时候要做的操作
+		  this.scrollnum=scrollTop;
+		  var vilist=document.getElementsByTagName("video");
+		  for(var i=0;i<vilist.length;i++){
+			  vilist[i].pause()
+		  }
+		}
+	}
+  },
+  destroyed() {
+	document.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>

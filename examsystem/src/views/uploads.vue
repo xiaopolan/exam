@@ -62,9 +62,9 @@
 	}
 	.bgimgbtm{
 		width: 100%;
-		height: 92px;
+		height: 35px;
 		background: url(../assets/today1.png) no-repeat;
-		background-size: 100% 92px;
+		background-size: 100% 35px;
 		margin-top: 21px;
 	}
 	.info{
@@ -98,7 +98,8 @@
 	.videodiv{
 		width: 320px;
 		height: 260px;
-		line-height: 50px;
+		line-height: 30px;
+		margin-top: 90px;
 	}
 	.master{
 		width: 100%;
@@ -146,7 +147,7 @@
 					<input type="file" accept="video/*" @change="picUpload($event)" />
 				</p>
 			</div>
-			<div class="videodiv" v-if="isvideo">当前已选择了一个视频</div>
+			<div class="videodiv" v-if="isvideo">当前已上传一个视频<br />请点击提交!</div>
 		</div>
 		<div class="submitbtn" @click="submitbtn()">提交</div>
 		<div class="bgimgbtm"></div>
@@ -193,6 +194,7 @@
 							this.$router.push({
 								name: 'choise',
 							})
+							localStorage.removeItem('Authorization');
 						}
 					}else{
 						this.$router.push({
@@ -218,7 +220,8 @@
 				if(content.size /1024 < 1024 * 400){
 					this.videofile = e.target.files[0];
 				}else{
-					alert('请选择小于400M的视频')
+					alert('请选择小于400M的视频');
+					this.$router.go(0);
 				}
 				// var duration;
 				// var that=this
