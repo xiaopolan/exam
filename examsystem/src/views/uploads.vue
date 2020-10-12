@@ -116,17 +116,178 @@
 		height: 100px;
 		/* line-height: 100px; */
 		border-radius: 10px;
-		margin: 885px auto 0;
+		/* margin: 885px auto 0; */
 		background-color: #FFFFFF;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		position: absolute;
+		bottom: 290px;
+		left: 20%;
+		z-index: 999;
 	}
 	.gifim{
 		width: 18px;
 		height: 18px;
 		margin-left: 10px;
+	}
+	.videoList {
+		position: relative;
+		top: -40px;
+		padding-bottom: 95px;
+		z-index: 999;
+	}
+	
+	.videoBox {
+		width: 336px;
+		height: 340px;
+		border-radius: 11px;
+		box-shadow: 2px 4px 1px 0px rgba(212, 74, 34, 0.75);
+		background: #fff;
+		margin: 0 auto;
+		font-family: inpin heiti;
+		margin-top: 20px;
+	}
+	
+	.videoBox:first-child {
+		margin-top: 0;
+	}
+	
+	.videoBox .author {
+		color: #fff;
+		background: #D44A22;
+		width: 105px;
+		line-height: 26px;
+		text-align: center;
+		font-family: Adobe Heiti Std;
+		position: relative;
+		top: 23.5px;
+		left: -12px;
+	}
+	
+	.videoBox .author:after {
+		content: '';
+		position: absolute;
+		font-size: 0;
+		width: 0;
+		height: 0;
+		bottom: 100%;
+		left: 0;
+		border-style: solid;
+		border-width: 3px 6px;
+		border-color: transparent #AB2800 #AB2800 transparent;
+	}
+	
+	.videoBox .author .afterShape {
+		position: absolute;
+		left: 100%;
+		top: 0;
+		border-style: solid;
+		border-width: 13px 5px;
+		border-color: transparent transparent #D44A22 #D44A22;
+	}
+	
+	.videoBox .creatTiem {
+		color: #8E8E8E;
+		font-size: 15px;
+		line-height: 35px;
+	}
+	
+	.videoBox .videoMain {
+		width: 314px;
+		height: 235px;
+		margin: 0px auto 0;
+	}
+	
+	.videoBox .title {
+		color: #666666;
+		font-size: 15px;
+		line-height: 37px;
+		text-align: center;
+		border: 1px solid #EAEAEA;
+		border-bottom: 0 none;
+	}
+	
+	.clearFloat:after {
+		content: "";
+		clear: both;
+		display: block;
+	}
+	
+	.bottomPic1 {
+		width: 98%;
+		position: absolute;
+		bottom: 27px;
+		left: 1%;
+	}
+	
+	.bottomPic2 {
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+	
+	.videoBox .video {
+		height: 194px;
+	}
+	
+	.noVideo {
+		width: 100%;
+		height: 100%;
+		background: #EAEAEA;
+		padding-top: 70px;
+		box-sizing: border-box;
+	}
+	
+	.noVideoIcon {
+		background: url(../assets/noVideo.png) no-repeat;
+		width: 81px;
+		height: 61px;
+		background-size: 100% 100%;
+		margin: 0 auto;
+	}
+	
+	.video {
+		position: relative;
+	}
+	
+	video {
+		width: 100%;
+		height: 100%;
+		max-width: 302px;
+		max-height: 194px;
+	}
+	
+	.hasVideo {
+		background: #EAEAEA;
+	}
+	
+	.videoMain .playBtn {
+		background: url(../assets/videoPlayBtn.png) no-repeat;
+		width: 60px;
+		height: 60px;
+		background-size: 100% 100%;
+		position: absolute;
+		top: 66px;
+		left: 50%;
+		margin-left: -30px;
+	}
+	
+	.playBtnBox {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	
+	.videotext {
+		font-size: 10px;
+		font-weight: 400;
+		color: #BABABA;
+		line-height: 32px;
 	}
 </style>
 <template>
@@ -148,6 +309,20 @@
 				</p>
 			</div>
 			<div class="videodiv" v-if="isvideo">当前已上传一个视频<br />请点击提交!</div>
+		</div>
+		<div class="videoBox" v-if="hasvideos">
+			<div class="clearFloat">
+				<span  class="creatTiem">上传时间：{{videonow.creatdate}}</span>
+			</div>
+			<div class="videoMain">
+				<div  class="title">{{videonow.font}}</div>
+				<div class="video">
+					<div  class="hasVideo" >
+						<video :src="videonow.url"  poster=""  controls></video>
+					</div>
+					<div  class="videotext">第{{videonow.num}}次上传</div>
+				</div>
+			</div>
 		</div>
 		<div class="submitbtn" @click="submitbtn()">提交</div>
 		<div class="bgimgbtm"></div>
@@ -174,13 +349,36 @@
 				font: '',
 				url:'',
 				isvideo:false,
-				ismast:false
+				ismast:false,
+				hasvideos:false,
+				videonow:{
+					
+				}
 			}
 		},
 		created() {
-			this.getuserinfo()
+			this.getuserinfo();
+			this.getvideo()
 		},
 		methods: {
+			getvideo(){
+				this.axios.get(this.baseurls + '/apply/getvideo',{
+					headers: {
+						'Authorization': localStorage.getItem('Authorization')
+					}
+				}).then(res => {
+					if(res.data.code==200){
+						if(res.data.resultData.code==0){
+							this.hasvideos=true;
+							this.videonow=res.data.data
+						}
+					}else{
+						alert(res.data.message)
+					}
+				}).catch(() => {
+				
+				})
+			},
 			getuserinfo() {
 				this.axios.get(this.baseurls + '/apply/getApplyManageList', {
 					headers: {
@@ -250,9 +448,10 @@
 					};
 					this.axios.post(this.baseurls + '/apply/uplodVideo',formData,config).then(res => {
 						if(res.data.code==200){
-							this.$router.push({
-								name: 'chiose',
-							})
+							// this.$router.push({
+							// 	name: 'chiose',
+							// })
+							location.reload();
 							this.ismast=false;
 							alert('上传成功')
 						}else{

@@ -65,7 +65,7 @@
 <template>
 	<div class="getbg">
 		<div class="formdiv">
-			<input v-model="sfnumber" class="sfinout" type="number" oninput="if(value.length>6)value=value.slice(0,6)" maxlength="6" placeholder="请输入您的身份证号后六位"/>
+			<input v-model="sfnumber" class="sfinout" type="text" oninput="if(value.length>6)value=value.slice(0,6)" maxlength="6" placeholder="请输入您的身份证号后六位"/>
 			<input v-model="phonenum" class="sfinout" type="number" oninput="if(value.length>11)value=value.slice(0,11)" maxlength="6" placeholder="请输入您的手机号"/>
 			<input v-model="yzmnum" class="sfinout" type="number" oninput="if(value.length>6)value=value.slice(0,6)" maxlength="6" placeholder="请输入验证码"/>
 			<div v-show="issend" class="yzmdiv" @click="getyzm()">获取验证码</div>
