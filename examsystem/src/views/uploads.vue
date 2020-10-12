@@ -251,9 +251,10 @@
 					this.axios.post(this.baseurls + '/apply/uplodVideo',formData,config).then(res => {
 						if(res.data.code==200){
 							this.$router.push({
-								name: 'previewpage',
+								name: 'chiose',
 							})
-							this.ismast=false
+							this.ismast=false;
+							alert('上传成功')
 						}else{
 							alert('上传失败')
 						}

@@ -100,7 +100,7 @@ export default {
   },
   methods:{
 	  getyzm(){
-		  let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+		  let myreg = /^1[3|4|5|6|7|8|9]\d{9}$/;
 		  if(this.phonenum=='' || this.sfnumber==''){
 			alert('请将信息填写完整')
 		  }else if(!myreg.test(this.phonenum)){
@@ -130,7 +130,7 @@ export default {
 		 
 	  },
 	  yzclick(){
-		   let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+		   let myreg = /^1[3|4|5|6|7|8|9]\d{9}$/;
 		   let params={
 			   code:this.yzmnum,
 			   namecode:this.sfnumber,
